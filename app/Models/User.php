@@ -38,4 +38,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Puskesmas::class);
     }
+
+    public function kader()
+    {
+        return $this->hasOne(Kader::class);
+    }
 }

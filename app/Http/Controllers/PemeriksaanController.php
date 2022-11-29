@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Kader;
 use App\Models\Lansia;
 use App\Models\Pemeriksaan;
 use App\Http\Requests\StorePemeriksaanRequest;
 use App\Http\Requests\UpdatePemeriksaanRequest;
+use Illuminate\Support\Facades\Storage;
 
 class PemeriksaanController extends Controller
 {
@@ -165,12 +167,16 @@ class PemeriksaanController extends Controller
             'keluhan_utama' => $defaultRule,
             'tindakan_perawatan' => $defaultRule,
             'tindakan_kedokteran' => $defaultRule,
-            'foto' => $defaultRule,
+            'foto' => 'image|file',
             'mulai_pemeriksaan' => ['required', 'date'],
             'selesai_pemeriksaan' => ['required', 'date'],
             'longitute' => $defaultRule,
             'latitude' => $defaultRule,
         ]);
+
+        if (request()->file('foto')) {
+            $data['foto'] = request()->file('foto')->storeAs('foto-pemeriksaan', 'l' . $data['lansia_id'] . '_k' . $data['kader_id'] . '_' . date('Y-m-d H:i:s') . '.' . request()->file('foto')->extension());
+        }
 
         $pemeriksaan = Pemeriksaan::create($data);
 
@@ -189,8 +195,19 @@ class PemeriksaanController extends Controller
 
     public function apiDestroy(Pemeriksaan $pemeriksaan)
     {
-        return [
-            'success' => $pemeriksaan->delete()
-        ];
+        if ($pemeriksaan->foto) {
+            Storage::delete($pemeriksaan->foto);
+        }
+
+
+        if ($pemeriksaan->delete()) {
+            return [
+                'status' => 'Berhasil menghapus data pemeriksaan'
+            ];
+        } else {
+            return [
+                'status' => 'Penghapusan data pemeriksaan gagal'
+            ];
+        }
     }
 }

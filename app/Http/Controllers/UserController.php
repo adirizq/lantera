@@ -23,7 +23,11 @@ class UserController extends Controller
             $token = $user->createToken('user-token');
 
             if ($user->role == 2) {
-                return ['status' => 'success', 'token' => $token->plainTextToken];
+                if (!isset($user->kader->verified_at)) {
+                    return ['status' => 'fail', 'message' => "Akun belum tervalidasi harap hubungi admin puskesmas."];
+                } else {
+                    return ['status' => 'success', 'token' => $token->plainTextToken];
+                }
             } else {
                 return ['status' => 'fail', 'message' => "You're Not Kader"];
             }

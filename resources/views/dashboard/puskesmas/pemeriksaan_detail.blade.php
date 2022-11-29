@@ -43,6 +43,10 @@
                                 <div class="px-2 mt-1">
                                     <div id="map"></div>
                                 </div>
+                                <h6 class="alert-heading mb-0 mt-3">Foto Pemeriksaan</h6>
+                                <div class="px-2 mt-1">
+                                    <img src="{{ url('storage/' . $pemeriksaan->foto) }}" alt="" class="img-fluid">
+                                </div>
                             </div>
                         </div>
                         <div class="col-xxl-9 col-xl-8 col-12">
