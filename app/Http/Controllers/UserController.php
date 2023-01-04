@@ -29,10 +29,10 @@ class UserController extends Controller
                     return ['status' => 'success', 'token' => $token->plainTextToken];
                 }
             } else {
-                return ['status' => 'fail', 'message' => "You're Not Kader"];
+                return ['status' => 'fail', 'message' => "Anda bukan kader"];
             }
         } else {
-            return ['status' => 'fail', 'message' => "Wrong Credentials"];
+            return ['status' => 'fail', 'message' => "Username atau password salah"];
         }
     }
 

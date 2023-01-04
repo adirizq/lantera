@@ -616,14 +616,14 @@
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 
     <script>
-        var map = L.map('map').setView([{{ $pemeriksaan->latitude }}, {{ $pemeriksaan->longitute }}], 13);
+        var map = L.map('map').setView([{{ $pemeriksaan->latitude }}, {{ $pemeriksaan->longitude }}], 13);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        var marker = L.marker([{{ $pemeriksaan->latitude }}, {{ $pemeriksaan->longitute }}]).addTo(map);
+        var marker = L.marker([{{ $pemeriksaan->latitude }}, {{ $pemeriksaan->longitude }}]).addTo(map);
     </script>
 
     @if (session()->has('success'))

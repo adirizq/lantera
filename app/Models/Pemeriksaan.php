@@ -68,7 +68,7 @@ class Pemeriksaan extends Model
         'foto',
         'mulai_pemeriksaan',
         'selesai_pemeriksaan',
-        'longitute',
+        'longitude',
         'latitude',
     ];
 
