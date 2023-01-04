@@ -7,6 +7,7 @@ use App\Http\Requests\StoreKaderRequest;
 use App\Http\Requests\UpdateKaderRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\QueryException;
 
 class KaderController extends Controller
 {
@@ -144,37 +145,37 @@ class KaderController extends Controller
             'pekerjaan' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $user = User::create([
-            'username' => request('username'),
-            'password' => Hash::make(request('password')),
-            'role' => 2,
-        ]);
 
-        if ($user) {
-            $kader = Kader::create([
-                'user_id' => $user->id,
-                'puskesmas_id' => request('puskesmas_id'),
-                'nama' => request('nama'),
-                'tgl_lahir' => request('tgl_lahir'),
-                'alamat_domisili' => request('alamat_domisili'),
-                'id_provinsi' => request('id_provinsi'),
-                'id_kota' => request('id_kota'),
-                'id_kecamatan' => request('id_kecamatan'),
-                'id_kelurahan' => request('id_kelurahan'),
-                'rt' => request('rt'),
-                'rw' => request('rw'),
-                'pekerjaan' => request('pekerjaan'),
+        try {
+            $user = User::create([
+                'username' => request('username'),
+                'password' => Hash::make(request('password')),
+                'role' => 2,
             ]);
 
-            if ($kader) {
+            try {
+                $kader = Kader::create([
+                    'user_id' => $user->id,
+                    'puskesmas_id' => request('puskesmas_id'),
+                    'nama' => request('nama'),
+                    'tgl_lahir' => request('tgl_lahir'),
+                    'alamat_domisili' => request('alamat_domisili'),
+                    'id_provinsi' => request('id_provinsi'),
+                    'id_kota' => request('id_kota'),
+                    'id_kecamatan' => request('id_kecamatan'),
+                    'id_kelurahan' => request('id_kelurahan'),
+                    'rt' => request('rt'),
+                    'rw' => request('rw'),
+                    'pekerjaan' => request('pekerjaan'),
+                ]);
+
                 return $kader;
-            } else {
+            } catch (QueryException $e) {
                 $user->delete();
                 return response('Gagal buat akun. Code [1]', 400);
             }
-        } else {
-            $user->delete();
-            return response('Gagal buat akun. Code [1]', 400);
+        } catch (QueryException $e) {
+            return response('Gagal buat akun. Code [0]', 400);
         }
     }
 }

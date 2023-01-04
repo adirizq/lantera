@@ -133,7 +133,7 @@
 
         <div class="form-group">
             <h5 class="form-label mt-5 mb-3">Alamat Lengkap Puskesmas</h5>
-            <textarea name="address" value={{ old('address') }} id="address" rows="3" class="form-control @error('address') is-invalid @enderror"></textarea>
+            <textarea name="address" value={{ old('address') }} id="address" rows="3" class="form-control @error('address') is-invalid @enderror">{{ old('address') }}</textarea>
             @error('address')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -143,7 +143,7 @@
 
         <h5 class="mt-5 mb-3">Informasi Akun</h5>
         <div class="form-group position-relative has-icon-left mb-4">
-            <input required type="text" class="form-control form-control-lg @error('username') is-invalid @enderror" placeholder="Username" name="username" value={{ old('') }}>
+            <input required type="text" class="form-control form-control-lg @error('username') is-invalid @enderror" placeholder="Username" name="username" value={{ old('username') }}>
             <div class="form-control-icon">
                 <i class="bi bi-person"></i>
             </div>

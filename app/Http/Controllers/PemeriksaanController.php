@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Kader;
 use App\Models\Lansia;
 use App\Models\Pemeriksaan;
 use App\Http\Requests\StorePemeriksaanRequest;
 use App\Http\Requests\UpdatePemeriksaanRequest;
+use Illuminate\Support\Facades\Storage;
 
 class PemeriksaanController extends Controller
 {
@@ -114,18 +116,18 @@ class PemeriksaanController extends Controller
         $data = request()->validate([
             'lansia_id' => ['required', 'integer', 'exists:lansia,id'],
             'kader_id' => ['required', 'integer', 'exists:kader,id'],
-            'suhu_tubuh' => $defaultRule,
-            'tekanan_darah_sistole' => $defaultRule,
-            'tekanan_darah_diastole' => $defaultRule,
-            'denyut_nadi' => $defaultRule,
-            'kolestrol' => $defaultRule,
-            'glukosa' => $defaultRule,
+            'suhu_tubuh' => ['required', 'numeric'],
+            'tekanan_darah_sistole' => ['required', 'integer'],
+            'tekanan_darah_diastole' => ['required', 'integer'],
+            'denyut_nadi' => ['required', 'integer'],
+            'kolestrol' => ['required', 'integer'],
+            'glukosa' => ['required', 'integer'],
             'kondisi' => $defaultRule,
-            'asam_urat' => $defaultRule,
-            'respiratory_rate' => $defaultRule,
-            'spo2' => $defaultRule,
-            'berat_badan' => $defaultRule,
-            'lingkar_perut' => $defaultRule,
+            'asam_urat' => ['required', 'integer'],
+            'respiratory_rate' => ['required', 'integer'],
+            'spo2' => ['required', 'integer'],
+            'berat_badan' => ['required', 'numeric'],
+            'lingkar_perut' => ['required', 'numeric'],
             'swab' => $defaultRule,
             'sub_1_pola_makan' => $defaultRule,
             'sub_1_pola_bab' => $defaultRule,
@@ -165,12 +167,16 @@ class PemeriksaanController extends Controller
             'keluhan_utama' => $defaultRule,
             'tindakan_perawatan' => $defaultRule,
             'tindakan_kedokteran' => $defaultRule,
-            'foto' => $defaultRule,
+            'foto' => 'image|file',
             'mulai_pemeriksaan' => ['required', 'date'],
             'selesai_pemeriksaan' => ['required', 'date'],
-            'longitute' => $defaultRule,
+            'longitude' => $defaultRule,
             'latitude' => $defaultRule,
         ]);
+
+        if (request()->file('foto')) {
+            $data['foto'] = request()->file('foto')->storeAs('foto-pemeriksaan', 'l' . $data['lansia_id'] . '_k' . $data['kader_id'] . '_' . date('Y-m-d H:i:s') . '.' . request()->file('foto')->extension());
+        }
 
         $pemeriksaan = Pemeriksaan::create($data);
 
@@ -189,8 +195,19 @@ class PemeriksaanController extends Controller
 
     public function apiDestroy(Pemeriksaan $pemeriksaan)
     {
-        return [
-            'success' => $pemeriksaan->delete()
-        ];
+        if ($pemeriksaan->foto) {
+            Storage::delete($pemeriksaan->foto);
+        }
+
+
+        if ($pemeriksaan->delete()) {
+            return [
+                'status' => 'Berhasil menghapus data pemeriksaan'
+            ];
+        } else {
+            return [
+                'status' => 'Penghapusan data pemeriksaan gagal'
+            ];
+        }
     }
 }

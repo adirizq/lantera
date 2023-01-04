@@ -43,6 +43,10 @@
                                 <div class="px-2 mt-1">
                                     <div id="map"></div>
                                 </div>
+                                <h6 class="alert-heading mb-0 mt-3">Foto Pemeriksaan</h6>
+                                <div class="px-2 mt-1">
+                                    <img src="{{ url('storage/' . $pemeriksaan->foto) }}" alt="" class="img-fluid">
+                                </div>
                             </div>
                         </div>
                         <div class="col-xxl-9 col-xl-8 col-12">
@@ -612,14 +616,14 @@
     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
 
     <script>
-        var map = L.map('map').setView([{{ $pemeriksaan->latitude }}, {{ $pemeriksaan->longitute }}], 13);
+        var map = L.map('map').setView([{{ $pemeriksaan->latitude }}, {{ $pemeriksaan->longitude }}], 13);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        var marker = L.marker([{{ $pemeriksaan->latitude }}, {{ $pemeriksaan->longitute }}]).addTo(map);
+        var marker = L.marker([{{ $pemeriksaan->latitude }}, {{ $pemeriksaan->longitude }}]).addTo(map);
     </script>
 
     @if (session()->has('success'))
