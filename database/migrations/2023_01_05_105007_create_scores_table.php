@@ -13,18 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pemeriksaan', function (Blueprint $table) {
+        Schema::create('scores', function (Blueprint $table) {
             $table->id();
             $table->foreignId('lansia_id')->constrained('lansia')->onDelete('cascade');
-            $table->foreignId('kader_id')->constrained('kader');
-            $table->longText('json_data_phce');
-            $table->longText('json_data_subjektif');
-            $table->longText('json_data_keluhan');
-            $table->string('foto');
-            $table->dateTime('mulai_pemeriksaan');
-            $table->dateTime('selesai_pemeriksaan');
-            $table->string('longitude');
-            $table->string('latitude');
+            $table->foreignId('pemeriksaan_id')->constrained('pemeriksaan');
+            $table->string('score_pola_konsumsi');
+            $table->string('score_penglihatan');
+            $table->string('score_pendengaran');
+            $table->string('score_mobilitas');
+            $table->string('score_kognitif');
+            $table->string('score_gejala_depresi');
             $table->timestamps();
         });
     }
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pemeriksaan');
+        Schema::dropIfExists('scores');
     }
 };
