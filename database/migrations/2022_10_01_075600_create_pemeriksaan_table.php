@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('lansia_id')->constrained('lansia')->onDelete('cascade');
             $table->foreignId('kader_id')->constrained('kader');
-            $table->longText('json_data_phce');
-            $table->longText('json_data_subjektif');
-            $table->longText('json_data_keluhan');
+            $table->mediumText('json_data_phce');
+            $table->mediumText('json_data_subjektif');
+            $table->mediumText('json_data_keluhan');
             $table->string('foto');
             $table->dateTime('mulai_pemeriksaan');
             $table->dateTime('selesai_pemeriksaan');
