@@ -83,4 +83,10 @@ class ScoreController extends Controller
     {
         //
     }
+
+
+    public function apiShow(Score $score)
+    {
+        return $score;
+    }
 }
