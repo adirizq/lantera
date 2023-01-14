@@ -165,19 +165,20 @@ class PemeriksaanController extends Controller
 
     public function apiDestroy(Pemeriksaan $pemeriksaan)
     {
-        if ($pemeriksaan->foto) {
-            Storage::delete($pemeriksaan->foto);
-        }
+        if (Score::where('pemeriksaan_id', $pemeriksaan->id)->delete()) {
+            if ($pemeriksaan->foto) {
+                Storage::delete($pemeriksaan->foto);
+            }
 
-
-        if ($pemeriksaan->delete()) {
-            return [
-                'status' => 'Berhasil menghapus data pemeriksaan'
-            ];
-        } else {
-            return [
-                'status' => 'Penghapusan data pemeriksaan gagal'
-            ];
+            if ($pemeriksaan->delete()) {
+                return [
+                    'status' => 'Berhasil menghapus data pemeriksaan'
+                ];
+            } else {
+                return [
+                    'status' => 'Penghapusan data pemeriksaan gagal'
+                ];
+            }
         }
     }
 }
