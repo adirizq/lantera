@@ -8,6 +8,7 @@ use App\Models\Lansia;
 use App\Models\Pemeriksaan;
 use App\Http\Requests\StorePemeriksaanRequest;
 use App\Http\Requests\UpdatePemeriksaanRequest;
+use App\Models\Score;
 use Illuminate\Support\Facades\Storage;
 
 class PemeriksaanController extends Controller
@@ -112,61 +113,16 @@ class PemeriksaanController extends Controller
     public function apiRegister()
     {
         $defaultRule = ['required', 'string', 'max:255'];
+        $integerRule = ['required', 'integer'];
+        $stringRule = ['required', 'string'];
+        $numericRule = ['required', 'numeric'];
 
-        $data = request()->validate([
+        $dataPemeriksaan = request()->validate([
             'lansia_id' => ['required', 'integer', 'exists:lansia,id'],
             'kader_id' => ['required', 'integer', 'exists:kader,id'],
-            'suhu_tubuh' => ['required', 'numeric'],
-            'tekanan_darah_sistole' => ['required', 'integer'],
-            'tekanan_darah_diastole' => ['required', 'integer'],
-            'denyut_nadi' => ['required', 'integer'],
-            'kolestrol' => ['required', 'integer'],
-            'glukosa' => ['required', 'integer'],
-            'kondisi' => $defaultRule,
-            'asam_urat' => ['required', 'integer'],
-            'respiratory_rate' => ['required', 'integer'],
-            'spo2' => ['required', 'integer'],
-            'berat_badan' => ['required', 'numeric'],
-            'lingkar_perut' => ['required', 'numeric'],
-            'swab' => $defaultRule,
-            'sub_1_pola_makan' => $defaultRule,
-            'sub_1_pola_bab' => $defaultRule,
-            'sub_1_puasa' => $defaultRule,
-            'sub_1_catatan' => $defaultRule,
-            'sub_2_pola_minum' => $defaultRule,
-            'sub_2_pola_bak' => $defaultRule,
-            'sub_2_catatan' => $defaultRule,
-            'sub_3_tarik_napas' => $defaultRule,
-            'sub_3_buang_napas' => $defaultRule,
-            'sub_3_catatan' => $defaultRule,
-            'sub_4_tidur' => $defaultRule,
-            'sub_4_bangun_tidur' => $defaultRule,
-            'sub_4_catatan' => $defaultRule,
-            'sub_5_pola_seksual' => $defaultRule,
-            'sub_5_catatan' => $defaultRule,
-            'sub_6_penglihatan' => $defaultRule,
-            'sub_6_catatan' => $defaultRule,
-            'sub_7_pendengaran' => $defaultRule,
-            'sub_7_catatan' => $defaultRule,
-            'sub_8_perasa' => $defaultRule,
-            'sub_8_catatan' => $defaultRule,
-            'sub_9_penciuman' => $defaultRule,
-            'sub_9_catatan' => $defaultRule,
-            'sub_10_mobilitas' => $defaultRule,
-            'sub_10_catatan' => $defaultRule,
-            'sub_11_pendapatan' => $defaultRule,
-            'sub_11_catatan' => $defaultRule,
-            'sub_12_aktivitas_sosial' => $defaultRule,
-            'sub_12_catatan' => $defaultRule,
-            'sub_13_ibadah' => $defaultRule,
-            'sub_13_catatan' => $defaultRule,
-            'sub_14_dukungan_keluarga' => $defaultRule,
-            'sub_14_catatan' => $defaultRule,
-            'sub_15_tinggal_bersama' => $defaultRule,
-            'sub_15_catatan' => $defaultRule,
-            'keluhan_utama' => $defaultRule,
-            'tindakan_perawatan' => $defaultRule,
-            'tindakan_kedokteran' => $defaultRule,
+            'json_data_phce' => $stringRule,
+            'json_data_subjektif' => $stringRule,
+            'json_data_keluhan' => $stringRule,
             'foto' => 'image|file',
             'mulai_pemeriksaan' => ['required', 'date'],
             'selesai_pemeriksaan' => ['required', 'date'],
@@ -174,11 +130,25 @@ class PemeriksaanController extends Controller
             'latitude' => $defaultRule,
         ]);
 
+        $dataScore = request()->validate([
+            'lansia_id' => ['required', 'integer', 'exists:lansia,id'],
+            'score_malnutrisi' => $integerRule,
+            'score_penglihatan' => $integerRule,
+            'score_pendengaran' => $integerRule,
+            'score_mobilitas' => $integerRule,
+            'score_kognitif' => $integerRule,
+            'score_gejala_depresi' => $integerRule,
+        ]);
+
         if (request()->file('foto')) {
-            $data['foto'] = request()->file('foto')->storeAs('foto-pemeriksaan', 'l' . $data['lansia_id'] . '_k' . $data['kader_id'] . '_' . date('Y-m-d H:i:s') . '.' . request()->file('foto')->extension());
+            $dataPemeriksaan['foto'] = request()->file('foto')->storeAs('foto-pemeriksaan', 'l' . $dataPemeriksaan['lansia_id'] . '_k' . $dataPemeriksaan['kader_id'] . '_' . date('Y-m-d H:i:s') . '.' . request()->file('foto')->extension());
         }
 
-        $pemeriksaan = Pemeriksaan::create($data);
+        $pemeriksaan = Pemeriksaan::create($dataPemeriksaan);
+
+        $dataScore['pemeriksaan_id'] = $pemeriksaan->id;
+
+        $score = Score::create($dataScore);
 
         return $pemeriksaan;
     }

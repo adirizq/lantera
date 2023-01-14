@@ -14,7 +14,7 @@ class Score extends Model
     protected $fillable = [
         'lansia_id',
         'pemeriksaan_id',
-        'score_pola_konsumsi',
+        'score_malnutrisi',
         'score_penglihatan',
         'score_pendengaran',
         'score_mobilitas',

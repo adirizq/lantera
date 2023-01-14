@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('lansia_id')->constrained('lansia')->onDelete('cascade');
             $table->foreignId('pemeriksaan_id')->constrained('pemeriksaan');
-            $table->string('score_pola_konsumsi');
+            $table->string('score_malnutrisi');
             $table->string('score_penglihatan');
             $table->string('score_pendengaran');
             $table->string('score_mobilitas');
