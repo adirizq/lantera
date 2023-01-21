@@ -9,6 +9,7 @@ use App\Models\Pemeriksaan;
 use App\Http\Requests\StorePemeriksaanRequest;
 use App\Http\Requests\UpdatePemeriksaanRequest;
 use App\Models\Score;
+use App\Models\ViewScores;
 use Illuminate\Support\Facades\Storage;
 
 class PemeriksaanController extends Controller
@@ -21,7 +22,7 @@ class PemeriksaanController extends Controller
     public function index()
     {
         $kader = Kader::where('puskesmas_id', auth()->user()->puskesmas->id)->get();
-        $pemeriksaan = Pemeriksaan::whereIn('kader_id', $kader->pluck('id'))->with(['kader', 'lansia'])->get();
+        $pemeriksaan = Pemeriksaan::whereIn('kader_id', $kader->pluck('id'))->with(['kader', 'lansia'])->get()->sortByDesc('id');
 
         return view('dashboard.puskesmas.pemeriksaan', [
             'page' => 'Data Pemeriksaan',
@@ -58,9 +59,22 @@ class PemeriksaanController extends Controller
      */
     public function show(Pemeriksaan $pemeriksaan)
     {
+        $phce = json_decode($pemeriksaan['json_data_phce'], true);
+        $subjektif = json_decode($pemeriksaan['json_data_subjektif'], true);
+        $keluhan = json_decode($pemeriksaan['json_data_keluhan'], true);
+
+        $scores = ViewScores::where('pemeriksaan_id', $pemeriksaan->id)->first();
+
+        // dd($subjektif);
+
         return view('dashboard.puskesmas.pemeriksaan_detail', [
             'page' => 'Data Pemeriksaan',
-            'pemeriksaan' => $pemeriksaan
+            'pemeriksaan' => $pemeriksaan,
+            'phce' => $phce,
+            'subjektif' => $subjektif,
+            'keluhan' => $keluhan,
+            'scores' => $scores,
+
         ]);
     }
 

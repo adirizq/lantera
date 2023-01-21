@@ -18,7 +18,7 @@ class LansiaController extends Controller
     public function index()
     {
         $posyandu = Posyandu::where('puskesmas_id', auth()->user()->puskesmas->id)->get();
-        $lansia = Lansia::whereIn('posyandu_id', $posyandu->pluck('id'))->with(['posyandu'])->get();
+        $lansia = Lansia::whereIn('posyandu_id', $posyandu->pluck('id'))->with(['posyandu'])->get()->sortByDesc('id');
 
         return view('dashboard.puskesmas.lansia', [
             'page' => 'Lansia',

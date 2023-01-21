@@ -141,7 +141,21 @@
     <script src="{{ asset('assets/extensions/toastify-js/src/toastify.js') }}"></script>
 
     <script>
-        let jquery_datatable = $("#table1").DataTable()
+        let jquery_datatable = $("#table1").DataTable({
+            "order": [],
+            "columnDefs": [{
+                    "width": "150px",
+                    "targets": 2
+                }, {
+                    "width": "25%",
+                    "targets": 3
+                },
+                {
+                    "width": "50px",
+                    "targets": 4
+                },
+            ]
+        })
     </script>
 
     @if (session()->has('success'))

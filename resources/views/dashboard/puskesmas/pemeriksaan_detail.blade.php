@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <h4 class="card-title">Detail Data Pemeriksaan</h4>
                     <div class="row mt-4">
-                        <div class="col-xxl-3 col-xl-4 col-12">
+                        <div class="col-xxl-3 col-xl-4 col-12 mb-5">
                             <div class="alert alert-primary py-4 px-3">
                                 <h6 class="alert-heading mb-0">ID Pemeriksaan</h6>
                                 <p class="card-text mt-1 mb-3">{{ $pemeriksaan->id }}</p>
@@ -50,6 +50,85 @@
                             </div>
                         </div>
                         <div class="col-xxl-9 col-xl-8 col-12">
+                            <div class="row mb-3">
+                                @foreach ($scores->getAttributes() as $key => $s)
+                                    @if (str_contains($key, 'score'))
+                                        @if ($scores->{str_replace('score', 'status', $key)} == 'NORMAL')
+                                            <div class="col">
+                                                <div class="card safe-score-card mb-3">
+                                                    <div class="card-body px-3 py-3">
+                                                        <div class="row flex-nowrap">
+                                                            <div class="score-fixed d-flex justify-content-start ">
+                                                                <div class="stats-icon safe-score mb-0 px-2">
+                                                                    <h3 class="mb-0 no-space-text white-text">{{ $s }}</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <h6 class="font-semibold mb-1 dark-text no-wrap-text">{{ ucfirst(str_replace('_', ' ', str_replace('score_', '', $key))) }}</h6>
+                                                                <h4 class="safe-score-text font-extrabold mb-0 no-space-text no-wrap-text">NORMAL</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @elseif($scores->{str_replace('score', 'status', $key)} == 'BERESIKO')
+                                            <div class="col">
+                                                <div class="card warning-score-card mb-3">
+                                                    <div class="card-body px-3 py-3">
+                                                        <div class="row flex-nowrap">
+                                                            <div class="score-fixed d-flex justify-content-start ">
+                                                                <div class="stats-icon warning-score mb-0 px-2">
+                                                                    <h3 class="mb-0 no-space-text white-text">{{ $s }}</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <h6 class="font-semibold mb-1 dark-text no-wrap-text">{{ ucfirst(str_replace('_', ' ', str_replace('score_', '', $key))) }}</h6>
+                                                                <h4 class="warning-score-text font-extrabold mb-0 no-space-text no-wrap-text">BERESIKO</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @elseif($scores->{str_replace('score', 'status', $key)} == 'GANGGUAN')
+                                            <div class="col">
+                                                <div class="card danger-score-card mb-3">
+                                                    <div class="card-body px-3 py-3">
+                                                        <div class="row flex-nowrap">
+                                                            <div class="score-fixed d-flex justify-content-start ">
+                                                                <div class="stats-icon danger-score mb-0 px-2">
+                                                                    <h3 class="mb-0 no-space-text white-text">{{ $s }}</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <h6 class="font-semibold mb-1 dark-text no-wrap-text">{{ ucfirst(str_replace('_', ' ', str_replace('score_', '', $key))) }}</h6>
+                                                                <h4 class="danger-score-text font-extrabold mb-0 no-space-text no-wrap-text">GANGGUAN</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="col">
+                                                <div class="card danger-score-card mb-3">
+                                                    <div class="card-body px-3 py-3">
+                                                        <div class="row flex-nowrap">
+                                                            <div class="score-fixed d-flex justify-content-start ">
+                                                                <div class="stats-icon danger-score mb-0 px-2">
+                                                                    <h3 class="mb-0 no-space-text white-text px-2">E</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <h6 class="font-semibold mb-1 dark-text no-wrap-text">Error</h6>
+                                                                <h4 class="danger-score-text font-extrabold mb-0 no-space-text no-wrap-text">ERROR</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </div>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link fw-bold active" id="phce-tab" data-bs-toggle="tab" href="#phce" role="tab" aria-controls="phce" aria-selected="true">Pemeriksaan PHCe</a>
@@ -72,7 +151,7 @@
                                                             <h6 class="mb-0">Suhu Tubuh</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->suhu_tubuh }} &#8451;</p>
+                                                            <p class="card-text">{{ $phce['Suhu Tubuh'] ?? 'Tidak ada data' }} &#8451;</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -80,7 +159,7 @@
                                                             <h6 class="mb-0">Tekanan Darah</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->tekanan_darah_sistole }} / {{ $pemeriksaan->tekanan_darah_diastole }} mmHg</p>
+                                                            <p class="card-text">{{ $phce['Tekanan Darah Sistole'] ?? 'Tidak ada data' }} / {{ $phce['Tekanan Darah Diastole'] ?? 'Tidak ada data' }} mmHg</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -88,7 +167,7 @@
                                                             <h6 class="mb-0">Denyut Nadi</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->denyut_nadi }} BPM</p>
+                                                            <p class="card-text">{{ $phce['Denyut Nadi'] ?? 'Tidak ada data' }} BPM</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -96,7 +175,7 @@
                                                             <h6 class="mb-0">Kolesterol</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->kolestrol }} mg/dL</p>
+                                                            <p class="card-text">{{ $phce['Kolestrol'] ?? 'Tidak ada data' }} mg/dL</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -104,7 +183,7 @@
                                                             <h6 class="mb-0">Glukosa</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->glukosa }} mg/dL</p>
+                                                            <p class="card-text">{{ $phce['Glukosa'] ?? 'Tidak ada data' }} mg/dL</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -112,7 +191,7 @@
                                                             <h6 class="mb-0">Kondisi Saat Periksa Glukosa</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->kondisi }}</p>
+                                                            <p class="card-text">{{ $phce['Kondisi saat Periksa Glukosa'] ?? 'Tidak ada data' }}</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -120,7 +199,7 @@
                                                             <h6 class="mb-0">Asam Urat</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->asam_urat }} mg/dL</p>
+                                                            <p class="card-text">{{ $phce['Asam Urat'] ?? 'Tidak ada data' }} mg/dL</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -128,7 +207,7 @@
                                                             <h6 class="mb-0">Respiratory Rate</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->respiratory_rate }} / Menit</p>
+                                                            <p class="card-text">{{ $phce['Respiratory Rate'] ?? 'Tidak ada data' }} / Menit</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -136,7 +215,7 @@
                                                             <h6 class="mb-0">SpO2</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->spo2 }} / %</p>
+                                                            <p class="card-text">{{ $phce['SpO2'] ?? 'Tidak ada data' }} / %</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -144,7 +223,23 @@
                                                             <h6 class="mb-0">Berat Badan</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->berat_badan }} Kg</p>
+                                                            <p class="card-text">{{ $phce['Berat Badan'] ?? 'Tidak ada data' }} Kg</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-variable">
+                                                            <h6 class="mb-0">Tinggi Badan</h6>
+                                                        </td>
+                                                        <td>
+                                                            <p class="card-text">{{ $phce['Tinggi Badan'] ?? 'Tidak ada data' }} cm</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-variable">
+                                                            <h6 class="mb-0">Linkar Lengan Atas</h6>
+                                                        </td>
+                                                        <td>
+                                                            <p class="card-text">{{ $phce['Lingkar Lengan Atas'] ?? 'Tidak ada data' }} cm</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -152,15 +247,23 @@
                                                             <h6 class="mb-0">Linkar Perut</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->lingkar_perut }} cm</p>
+                                                            <p class="card-text">{{ $phce['Lingkar Perut'] ?? 'Tidak ada data' }} cm</p>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="table-variable">
-                                                            <h6 class="mb-0">Polymer Chain Reaction (Swab)</h6>
+                                                            <h6 class="mb-0">Status Vaksin</h6>
                                                         </td>
                                                         <td>
-                                                            <p class="card-text">{{ $pemeriksaan->swab }}</p>
+                                                            <p class="card-text">{{ $phce['Status Vaksin'] ?? 'Tidak ada data' }}</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="table-variable">
+                                                            <h6 class="mb-0">Keterangan Vaksin</h6>
+                                                        </td>
+                                                        <td>
+                                                            <p class="card-text">{{ isset($phce['Dosis Vaksin']) ? $phce['Dosis Vaksin'] ?? 'Tidak ada data' : $phce['Alasan belum vaksin'] ?? 'Tidak ada data' }}</p>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -169,7 +272,26 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade py-3" id="subjektif" role="tabpanel" aria-labelledby="subjektif-tab">
-                                    <div class="alert alert-light">
+                                    @foreach ($subjektif as $key => $s)
+                                        <div class="alert alert-light">
+                                            <h6 class="alert-heading mb-3">{{ $key }}</h6>
+                                            <div class="table-responsive">
+                                                <table class="table table-hover table-borderless mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="table-variable">
+                                                                <h6 class="mb-0">Catatan</h6>
+                                                            </td>
+                                                            <td>
+                                                                <p class="card-text">{{ $s['catatan'] ?? 'Tidak ada catatan' }}</p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    {{-- <div class="alert alert-light">
                                         <h6 class="alert-heading mb-3">Data Sub 1</h6>
                                         <div class="table-responsive">
                                             <table class="table table-hover table-borderless mb-0">
@@ -209,8 +331,8 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
-                                    <div class="alert alert-light">
+                                    </div> --}}
+                                    {{-- <div class="alert alert-light">
                                         <h6 class="alert-heading mb-3">Data Sub 2</h6>
                                         <div class="table-responsive">
                                             <table class="table table-hover table-borderless mb-0">
@@ -583,21 +705,15 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="tab-pane fade py-3" id="keluhan" role="tabpanel" aria-labelledby="keluhan-tab">
-                                    <div class="alert alert-light">
-                                        <h6 class="mb-3">Keluhan Utama Pasien</h6>
-                                        <p class="card-text">{{ $pemeriksaan->keluhan_utama }}</p>
-                                    </div>
-                                    <div class="alert alert-light">
-                                        <h6 class="mb-3">Tindakan Perawatan</h6>
-                                        <p class="card-text">{{ $pemeriksaan->tindakan_perawatan }}</p>
-                                    </div>
-                                    <div class="alert alert-light">
-                                        <h6 class="mb-3">Tindakan Kedokteran</h6>
-                                        <p class="card-text">{{ $pemeriksaan->tindakan_kedokteran }}</p>
-                                    </div>
+                                    @foreach ($keluhan as $key => $k)
+                                        <div class="alert alert-light">
+                                            <h6 class="mb-3">{{ $key }}</h6>
+                                            <p class="card-text">{{ $k != '' ? $k : 'Tidak ada' }}</p>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

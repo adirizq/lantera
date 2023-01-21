@@ -7,6 +7,7 @@
     <title>Lantera</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/main/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/main/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/main/app-dark.css') }}">
     <link rel="shortcut icon" href="{{ asset('assets/images/logo/favicon.ico') }}" type="image/x-icon">
 
