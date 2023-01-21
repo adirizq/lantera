@@ -32,6 +32,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('validating_puskesmas/{puskesmas}.', [PuskesmasController::class, 'validating'])->name('validatingPuskesmas');
 
     Route::get('remove_validation_puskesmas/{puskesmas}', [PuskesmasController::class, 'removeValidation'])->name('removeValidationPuskesmas');
+
+    Route::get('/fix-kognitif', [PemeriksaanController::class, 'fix']);
 });
 
 Route::middleware(['auth', 'puskesmas'])->group(function () {

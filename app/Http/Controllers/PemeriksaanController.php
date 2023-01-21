@@ -112,6 +112,28 @@ class PemeriksaanController extends Controller
         //
     }
 
+    public function fix()
+    {
+        $dictKognitif = [
+            "Tepat" => 1,
+            "Tidak Tepat" => 2,
+            "Tidak Tahu" => 3
+        ];
+
+        $pemeriksaan = Pemeriksaan::all()->sortByDesc('id');
+
+        foreach ($pemeriksaan as $p) {
+            $score = 0;
+            $data = json_decode($p['json_data_subjektif'], true)['Skrinning Kognitif'];
+
+            foreach ($data as $d) {
+                $score += $dictKognitif[$d] ?? 0;
+            }
+
+            Score::where('pemeriksaan_id', $p->id)->update(['score_kognitif' => $score]);
+        }
+    }
+
 
     public function apiIndex()
     {
