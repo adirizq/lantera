@@ -42,36 +42,36 @@ return new class extends Migration
             END AS 'status_malnutrisi',
 
             CASE 
-                WHEN (score_penglihatan > 10 AND score_malnutrisi < 22) THEN 'NORMAL' 
-                WHEN (score_penglihatan > 21 AND score_malnutrisi < 33) THEN 'BERESIKO' 
-                WHEN (score_penglihatan > 32 AND score_malnutrisi < 45) THEN 'GANGGUAN'
+                WHEN (score_penglihatan > 10 AND score_penglihatan < 22) THEN 'NORMAL' 
+                WHEN (score_penglihatan > 21 AND score_penglihatan < 33) THEN 'BERESIKO' 
+                WHEN (score_penglihatan > 32 AND score_penglihatan < 45) THEN 'GANGGUAN'
                 ELSE 'ERROR'
             END AS 'status_penglihatan',
 
             CASE 
-                WHEN (score_pendengaran > 0 AND score_malnutrisi < 18) THEN 'NORMAL' 
-                WHEN (score_pendengaran > 17 AND score_malnutrisi < 27) THEN 'BERESIKO' 
+                WHEN (score_pendengaran > 0 AND score_pendengaran < 18) THEN 'NORMAL' 
+                WHEN (score_pendengaran > 17 AND score_pendengaran < 27) THEN 'BERESIKO' 
                 WHEN (score_pendengaran > 26) THEN 'GANGGUAN'
                 ELSE 'ERROR'
             END AS 'status_pendengaran',
 
             CASE 
-                WHEN (score_mobilitas > 0 AND score_malnutrisi < 23) THEN 'NORMAL' 
-                WHEN (score_mobilitas > 22 AND score_malnutrisi < 35) THEN 'BERESIKO' 
+                WHEN (score_mobilitas > 0 AND score_mobilitas < 23) THEN 'NORMAL' 
+                WHEN (score_mobilitas > 22 AND score_mobilitas < 35) THEN 'BERESIKO' 
                 WHEN (score_mobilitas > 34) THEN 'GANGGUAN'
                 ELSE 'ERROR'
             END AS 'status_mobilitas',
 
             CASE 
-                WHEN (score_kognitif > 0 AND score_malnutrisi < 15) THEN 'NORMAL' 
-                WHEN (score_kognitif > 14 AND score_malnutrisi < 29) THEN 'BERESIKO' 
-                WHEN (score_kognitif > 28 AND score_malnutrisi < 43) THEN 'GANGGUAN'
+                WHEN (score_kognitif > 0 AND score_kognitif < 15) THEN 'NORMAL' 
+                WHEN (score_kognitif > 14 AND score_kognitif < 29) THEN 'BERESIKO' 
+                WHEN (score_kognitif > 28 AND score_kognitif < 43) THEN 'GANGGUAN'
                 ELSE 'ERROR'
             END AS 'status_kognitif',
 
             CASE 
-                WHEN (score_gejala_depresi > 0 AND score_malnutrisi < 33) THEN 'NORMAL' 
-                WHEN (score_gejala_depresi > 32 AND score_malnutrisi < 49) THEN 'BERESIKO' 
+                WHEN (score_gejala_depresi > 0 AND score_gejala_depresi < 33) THEN 'NORMAL' 
+                WHEN (score_gejala_depresi > 32 AND score_gejala_depresi < 49) THEN 'BERESIKO' 
                 WHEN (score_gejala_depresi > 48) THEN 'GANGGUAN'
                 ELSE 'ERROR'
             END AS 'status_gejala_depresi'
