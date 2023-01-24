@@ -151,7 +151,6 @@ class PemeriksaanController extends Controller
         $defaultRule = ['required', 'string', 'max:255'];
         $integerRule = ['required', 'integer'];
         $stringRule = ['required', 'string'];
-        $numericRule = ['required', 'numeric'];
 
         $dataPemeriksaan = request()->validate([
             'lansia_id' => ['required', 'integer', 'exists:lansia,id'],
@@ -187,6 +186,39 @@ class PemeriksaanController extends Controller
         $score = Score::create($dataScore);
 
         return $pemeriksaan;
+    }
+
+    public function apiUpdate(Pemeriksaan $pemeriksaan)
+    {
+        $integerRule = ['required', 'integer'];
+        $stringRule = ['required', 'string'];
+
+        $dataPemeriksaan = request()->validate([
+            'json_data_phce' => $stringRule,
+            'json_data_subjektif' => $stringRule,
+            'json_data_keluhan' => $stringRule,
+        ]);
+
+        $dataScore = request()->validate([
+            'score_malnutrisi' => $integerRule,
+            'score_penglihatan' => $integerRule,
+            'score_pendengaran' => $integerRule,
+            'score_mobilitas' => $integerRule,
+            'score_kognitif' => $integerRule,
+            'score_gejala_depresi' => $integerRule,
+        ]);
+
+        $pemeriksaanResult = Pemeriksaan::where('id', $pemeriksaan->id)
+            ->update($dataPemeriksaan);
+
+        $score = Score::where('pemeriksaan_id', $pemeriksaan->id)
+            ->update($dataScore);
+
+        if ($pemeriksaanResult == 1) {
+            return $pemeriksaan->id;
+        } else {
+            return 'Fail';
+        }
     }
 
     public function apiByLansia(Lansia $lansia)
