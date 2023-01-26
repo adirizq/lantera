@@ -430,6 +430,9 @@
         let jquery_datatable = $("#table1").DataTable({
             "order": [],
             "columnDefs": [{
+                    "width": "50px",
+                    "targets": 4
+                }, {
                     "width": "500px",
                     "targets": 3
                 },
