@@ -107,6 +107,7 @@
                                             <th>Posyandu</th>
                                             <th>Alamat</th>
                                             <th>Jenis Gangguan</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -115,7 +116,14 @@
                                                 <td>{{ $lansia->nama }}</td>
                                                 <td>{{ $lansia->nama_posyandu }}</td>
                                                 <td>{{ $lansia->alamat_domisili }}</td>
-                                                <td>{!! find_gangguan($lansia->status_malnutrisi, $lansia->status_penglihatan, $lansia->status_pendengaran, $lansia->status_mobilitas, $lansia->status_kognitif, $lansia->status_gejala_depresi) !!}</td>
+                                                <td>
+                                                    {!! find_gangguan($lansia->status_malnutrisi, $lansia->status_penglihatan, $lansia->status_pendengaran, $lansia->status_mobilitas, $lansia->status_kognitif, $lansia->status_gejala_depresi) !!}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('pemeriksaan.show', $lansia->id) }}" class="btn icon btn-info">
+                                                        <i class="bi bi-eye-fill"></i>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
