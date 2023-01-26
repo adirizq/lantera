@@ -1,14 +1,14 @@
 <?php
 
 if (!function_exists('status_element')) {
-    function status_element($status)
+    function status_element($status, $display)
     {
         if ($status == 'NORMAL') {
-            return '<h6><span class="badge bg-success">NORMAL</span></h6>';
+            return '<span class="badge bg-success my-1">' . $display . '</span> ';
         } elseif ($status == 'BERESIKO') {
-            return '<h6><span class="badge bg-warning">BERESIKO</span></h6>';
+            return '<span class="badge bg-warning my-1">' . $display . '</span> ';
         } elseif ($status == 'GANGGUAN') {
-            return '<h6><span class="badge bg-danger">GANGGUAN</span></h6>';
+            return '<span class="badge bg-danger my-1">' . $display . '</span> ';
         }
     }
 }

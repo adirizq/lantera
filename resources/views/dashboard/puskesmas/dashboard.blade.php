@@ -12,6 +12,10 @@
             height: 600px;
             width: 100%;
         }
+
+        .pie-chart {
+            max-width: 400px;
+        }
     </style>
 @endsection
 
@@ -151,68 +155,257 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-6">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Persentase Kondisi Malnutrisi Lansia</h4>
+                                <h4>Status Kesehatan Lansia</h4>
                             </div>
-                            <div class="card-body px-4 py-4">
-                                <div id="chart-malnutrisi"></div>
+                            <div class="card-body">
+                                <h5 class="mb-3">Keterangan</h5>
+                                <p><span class="badge bg-success">MALNUTRISI</span> &nbsp; = Lansia tidak mengalami gangguan malnutrisi / sehat / normal</p>
+                                <p><span class="badge bg-warning">MALNUTRISI</span> &nbsp; = Lansia beresiko mengalami gangguan malnutrisi</p>
+                                <p><span class="badge bg-danger">MALNUTRISI</span> &nbsp; = Lansia mengalami gangguan malnutrisi</p>
+
+                                <div class="mt-5"></div>
+                                <table class="table" id="table2">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama Lansia</th>
+                                            <th>Posyandu</th>
+                                            <th>Alamat</th>
+                                            <th>Status Kesehatan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($data_lansia as $lansia)
+                                            <tr>
+                                                <td>{{ $lansia->nama }}</td>
+                                                <td>{{ $lansia->nama_posyandu }}</td>
+                                                <td>{{ $lansia->alamat_domisili }}</td>
+                                                <td>
+                                                    <p class="mb-0" style="line-height:1;">
+                                                        {!! status_element($lansia->status_malnutrisi, 'MALNUTRISI') !!}
+                                                        {!! status_element($lansia->status_penglihatan, 'PENGLIHATAN') !!}
+                                                        {!! status_element($lansia->status_pendengaran, 'PENDENGARAN') !!}
+                                                        {!! status_element($lansia->status_mobilitas, 'MOBILITAS') !!}
+                                                        {!! status_element($lansia->status_kognitif, 'KOGNITIF') !!}
+                                                        {!! status_element($lansia->status_gejala_depresi, 'DEPRESI') !!}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Persentase Kondisi Penglihatan Lansia</h4>
-                            </div>
-                            <div class="card-body px-4 py-4">
-                                <div id="chart-penglihatan"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Persentase Kondisi Pendengaran Lansia</h4>
-                            </div>
-                            <div class="card-body px-4 py-4">
-                                <div id="chart-pendengaran"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Persentase Kondisi Mobilitas Lansia</h4>
-                            </div>
-                            <div class="card-body px-4 py-4">
-                                <div id="chart-mobilitas"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Persentase Kondisi Kognitif Lansia</h4>
-                            </div>
-                            <div class="card-body px-4 py-4">
-                                <div id="chart-kognitif"></div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Persentase Kondisi Malnutrisi Lansia</h4>
+                                </div>
+                                <div class="card-body px-4 py-4">
+                                    <div class="w-100">
+                                        <div class="pie-chart mx-auto" id="chart-malnutrisi"></div>
+                                    </div>
+                                    <table class="table table-lg mt-3">
+                                        <thead>
+                                            <tr>
+                                                <th>Status Malnutrisi</th>
+                                                <th>Jumlah Lansia</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span class="badge bg-success">NORMAL</span></td>
+                                                <td>{{ $data_malnutrisi[0] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-warning">BERESIKO</span></td>
+                                                <td>{{ $data_malnutrisi[1] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="badge bg-danger">GANGGUAN</span></td>
+                                                <td>{{ $data_malnutrisi[2] }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Persentase Kondisi Gejala Depresi Lansia</h4>
+                        <div class="col-12 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Persentase Kondisi Penglihatan Lansia</h4>
+                                </div>
+                                <div class="card-body px-4 py-4">
+                                    <div class="mx-auto">
+                                        <div class="pie-chart mx-auto" id="chart-penglihatan"></div>
+                                        <table class="table table-lg mt-3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Status Penglihatan</th>
+                                                    <th>Jumlah Lansia</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="badge bg-success">NORMAL</span></td>
+                                                    <td>{{ $data_penglihatan[0] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-warning">BERESIKO</span></td>
+                                                    <td>{{ $data_penglihatan[1] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-danger">GANGGUAN</span></td>
+                                                    <td>{{ $data_penglihatan[2] }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body px-4 py-4">
-                                <div id="chart-gejala_depresi"></div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Persentase Kondisi Pendengaran Lansia</h4>
+                                </div>
+                                <div class="card-body px-4 py-4">
+                                    <div class="mx-auto">
+                                        <div class="pie-chart mx-auto" id="chart-pendengaran"></div>
+                                        <table class="table table-lg mt-3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Status Pendengaran</th>
+                                                    <th>Jumlah Lansia</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="badge bg-success">NORMAL</span></td>
+                                                    <td>{{ $data_pendengaran[0] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-warning">BERESIKO</span></td>
+                                                    <td>{{ $data_pendengaran[1] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-danger">GANGGUAN</span></td>
+                                                    <td>{{ $data_pendengaran[2] }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Persentase Kondisi Mobilitas Lansia</h4>
+                                </div>
+                                <div class="card-body px-4 py-4">
+                                    <div class="mx-auto">
+                                        <div class="pie-chart mx-auto" id="chart-mobilitas"></div>
+                                        <table class="table table-lg mt-3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Status Mobilitas</th>
+                                                    <th>Jumlah Lansia</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="badge bg-success">NORMAL</span></td>
+                                                    <td>{{ $data_mobilitas[0] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-warning">BERESIKO</span></td>
+                                                    <td>{{ $data_mobilitas[1] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-danger">GANGGUAN</span></td>
+                                                    <td>{{ $data_mobilitas[2] }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Persentase Kondisi Kognitif Lansia</h4>
+                                </div>
+                                <div class="card-body px-4 py-4">
+                                    <div class="mx-auto">
+                                        <div class="pie-chart mx-auto" id="chart-kognitif"></div>
+                                        <table class="table table-lg mt-3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Status Kognitif</th>
+                                                    <th>Jumlah Lansia</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="badge bg-success">NORMAL</span></td>
+                                                    <td>{{ $data_kognitif[0] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-warning">BERESIKO</span></td>
+                                                    <td>{{ $data_kognitif[1] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-danger">GANGGUAN</span></td>
+                                                    <td>{{ $data_kognitif[2] }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Persentase Kondisi Depresi Lansia</h4>
+                                </div>
+                                <div class="card-body px-4 py-4">
+                                    <div class="mx-auto">
+                                        <div class="pie-chart mx-auto" id="chart-gejala_depresi"></div>
+                                        <table class="table table-lg mt-3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Status Depresi</th>
+                                                    <th>Jumlah Lansia</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="badge bg-success">NORMAL</span></td>
+                                                    <td>{{ $data_gejala_depresi[0] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-warning">BERESIKO</span></td>
+                                                    <td>{{ $data_gejala_depresi[1] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-danger">GANGGUAN</span></td>
+                                                    <td>{{ $data_gejala_depresi[2] }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
     </div>
 @endsection
@@ -229,11 +422,29 @@
         let jquery_datatable = $("#table1").DataTable({
             "order": [],
             "columnDefs": [{
-                "width": "500px",
-                "targets": 3
-            }, ]
+                    "width": "500px",
+                    "targets": 3
+                },
+                {
+                    "width": "200px",
+                    "targets": 2
+                },
+            ]
         })
 
+        //Status kesehatan lansia
+        let jquery_datatable2 = $("#table2").DataTable({
+            "order": [],
+            "columnDefs": [{
+                    "width": "650px",
+                    "targets": 3
+                },
+                {
+                    "width": "200px",
+                    "targets": 2
+                },
+            ]
+        })
 
 
         //Data pemeriksaan
@@ -347,7 +558,7 @@
                 series: data,
                 labels: ['Normal', 'Berisiko', 'Gangguan'],
                 chart: {
-                    type: 'donut'
+                    type: 'pie'
                 },
                 plotOptions: {
                     pie: {

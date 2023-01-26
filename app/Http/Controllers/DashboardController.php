@@ -189,6 +189,7 @@ class DashboardController extends Controller
                 'lansia_count' => $lansia->count(),
                 'pemeriksaan_count' => $pemeriksaan_count,
                 'total_days' => $this_month_days,
+                'data_lansia' => $data_lansia_lengkap,
                 'ppt' => $pemeriksaan_per_tahun_count,
                 'ppb' => $pemeriksaan_per_bulan_count,
                 'ldg' => $data_lansia_dengan_gangguan,
