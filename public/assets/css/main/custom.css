@@ -1,0 +1,55 @@
+.score-fixed {
+    max-width: 60px;
+}
+
+.safe-score {
+    background-color: #84cc16;
+}
+
+.warning-score {
+    background-color: #fbbf24;
+}
+
+.danger-score {
+    background-color: #dc2626;
+}
+
+.safe-score-text {
+    color: #84cc16;
+}
+
+.warning-score-text {
+    color: #fbbf24;
+}
+
+.danger-score-text {
+    color: #dc2626;
+}
+
+.safe-score-card {
+    background-color: #84cc1633;
+}
+
+.warning-score-card {
+    background-color: #fbbf2433;
+}
+
+.danger-score-card {
+    background-color: #dc262633;
+}
+
+.no-space-text {
+    line-height: 1;
+}
+
+.no-wrap-text {
+    white-space: nowrap;
+}
+
+.dark-text {
+    color: #121212;
+}
+
+.white-text {
+    color: #ffffff;
+}

@@ -18,7 +18,7 @@ class KaderController extends Controller
      */
     public function index()
     {
-        $kader = Kader::where('puskesmas_id', auth()->user()->puskesmas->id)->get();
+        $kader = Kader::where('puskesmas_id', auth()->user()->puskesmas->id)->get()->sortByDesc('id');
 
         return view('dashboard.puskesmas.kader', [
             'page' => 'Kader',

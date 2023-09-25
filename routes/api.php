@@ -11,6 +11,7 @@ use App\Http\Controllers\PosyanduController;
 use App\Http\Controllers\EmergencyController;
 use App\Http\Controllers\PuskesmasController;
 use App\Http\Controllers\PemeriksaanController;
+use App\Http\Controllers\ScoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,8 +74,13 @@ Route::controller(LansiaController::class)->group(function () {
 Route::controller(PemeriksaanController::class)->group(function () {
     Route::get('pemeriksaan', 'apiIndex');
     Route::get('pemeriksaan/{pemeriksaan}', 'apiShow');
+    Route::put('pemeriksaan/{pemeriksaan}', 'apiUpdate');
     Route::post('pemeriksaan', 'apiRegister');
     Route::delete('pemeriksaan/{pemeriksaan}', 'apiDestroy');
     Route::get('pemeriksaan-by-lansia/{lansia}', 'apiByLansia');
     Route::get('pemeriksaan-by-kader/{kader}', 'apiByKader');
+});
+
+Route::controller(ScoreController::class)->group(function () {
+    Route::get('score-pemeriksaan/{score}', 'apiShow');
 });
